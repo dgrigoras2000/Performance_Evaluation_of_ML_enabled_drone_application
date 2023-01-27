@@ -29,6 +29,12 @@ use_folder_for_save = False
 first_counter = False
 send_all_together = False
 
+if not os.path.exists(dir_path):
+    os.mkdir(dir_path)
+    print("Directory created.")
+else:
+    print("Directory already exists.")
+
 
 def find_files(directory, pattern):
     for root, dirs, files in os.walk(directory):
