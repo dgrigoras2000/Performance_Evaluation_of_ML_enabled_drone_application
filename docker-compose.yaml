@@ -1,0 +1,32 @@
+version: '3'
+services:
+  basestation:
+    image: basestation-exp:1.1
+    environment:
+      PYTHONUNBUFFERED: 1
+      USE_FOLDER_FOR_SAVE: False
+      SEND_ALL_TOGETHER: False
+      FIRST_COUNTER: False
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/data
+    network_mode: "bridge"
+    networks:
+      - internet
+
+  edge:
+    image: edge-exp:1.0
+    environment:
+      PYTHONUNBUFFERED: 1
+      ALL_TOGETHER: False
+      NUMBER_OF_IMAGES: 2
+    network_mode: "bridge"
+    networks:
+      - internet
+    depends_on:
+      - basestation
+
+networks:
+  internet:
+    external: true
