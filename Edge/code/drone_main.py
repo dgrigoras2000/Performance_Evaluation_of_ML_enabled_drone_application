@@ -65,7 +65,7 @@ class DroneMain:
 
         try:
             # Make an HTTP GET request to check if the connection to the basestation has been established
-            response = requests.get(url="http://172.20.0.2:8000/check/connection/basestation", timeout=10)
+            response = requests.get(url="http://basestation:8000/check/connection/basestation", timeout=10)
             if response.status_code == 200:
                 # If the response status code is 200, log a message indicating that the request was successful
                 logging.error("Request was successful")
@@ -86,7 +86,7 @@ class DroneMain:
             way_of_send = "Use list to send all pictures together "
             try:
                 response = requests.post(
-                    url=f"http://172.20.0.2:8000/import/images/0/0",  # Endpoint URL to send images
+                    url=f"http://basestation:8000/import/images/0/0",  # Endpoint URL to send images
                     files=self.images_list,  # Images to be sent
                     timeout=60
                 )
@@ -124,7 +124,7 @@ class DroneMain:
                 try:
                     response = requests.post(
                         # Endpoint URL to send images
-                        url=f"http://172.20.0.2:8000/import/images/{num_pic}/{total_num_of_imgs}",
+                        url=f"http://basestation:8000/import/images/{num_pic}/{total_num_of_imgs}",
                         files=list_num_elements,  # Images to be sent
                         timeout=60
                     )
