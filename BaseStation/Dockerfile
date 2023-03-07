@@ -1,22 +1,25 @@
-# Pull base image of latest Python 3.10.x
+# Pull base image of latest Python 3.10
 FROM python:3.10
 
-## Set environment variables
-#ENV PYTHONUNBUFFERED=1
-#ENV USE_FOLDER_FOR_SAVE=True
-#ENV SEND_ALL_TOGETHER=True
-#ENV FIRST_COUNTER=True
+# Upgrade pip to the latest version
+RUN pip3 install --upgrade pip
 
+
+# Create a directory called 'code' in the container and set it as the working directory
 RUN mkdir /code
 WORKDIR /code
+
+# Copy the requirements.txt file from the local machine to the container
 ADD requirements.txt /code/
 
-RUN pip3 install -r requirements.txt
+# Install the dependencies specified in requirements.txt
+RUN pip install --cache-dir=./pip_cache -r requirements.txt
 
+# Expose port 8000 to the outside world
 EXPOSE 8000
-# cron tab
+
+# Copy the contents of the ./code directory from the local machine to the container's /code directory
 ADD ./code/ /code/
 
-#RUN chmod +x /code/entrypoint.sh
-#CMD ["uvicorn", "basestation_server:app1", "--reload", "--host", "127.0.0.1", "--port", "8000"]
-CMD ["python3", "basestation_server.py" ]
+# Set the default command to run when the container startss
+CMD ["python", "basestation_server.py" ]
