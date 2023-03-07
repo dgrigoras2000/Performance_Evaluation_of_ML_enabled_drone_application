@@ -1,32 +1,78 @@
+# Define the version of the Docker Compose file syntax
 version: '3'
+
+# Define the services that will be run in the Docker environment
 services:
+
+  # Base Station Service
   basestation:
-    image: basestation-exp:1.1
+    container_name: basestation
+    # Environment variables
     environment:
-      PYTHONUNBUFFERED: 1
-      USE_FOLDER_FOR_SAVE: False
-      SEND_ALL_TOGETHER: False
-      FIRST_COUNTER: False
+      ALL_TOGETHER: "True"
+      FIRST_COUNTER: "False"
+      USE_FOLDER_FOR_SAVE: "True"
+
+    # Build from Dockerfile in ./BaseStation directory
+    build:
+      context: ./BaseStation
+      dockerfile: Dockerfile
+    image: basestation-exp:1.1
+
+    # Map port 8000 in the container to port 8000 on the host
     ports:
       - "8000:8000"
+
+    # Mount ./data directory to /data in the container
     volumes:
       - ./data:/data
-    network_mode: "bridge"
-    networks:
-      - internet
 
+    # Network mode and IP address
+    networks:
+      internet:
+
+  # Edge Service
   edge:
-    image: edge-exp:1.0
+    container_name: drone
+    # Environment variables
     environment:
-      PYTHONUNBUFFERED: 1
-      ALL_TOGETHER: False
-      NUMBER_OF_IMAGES: 2
-    network_mode: "bridge"
+      ALL_TOGETHER: "True"
+      NUMBER_OF_IMAGES: "2"
+
+    # Build from Dockerfile in ./Edge directory
+    build:
+      context: ./Edge
+      dockerfile: Dockerfile
+    image: edge-exp:1.0
+
+    # Network mode and network dependencies
     networks:
       - internet
     depends_on:
       - basestation
 
+  # Cloud Service
+  cloud:
+    container_name: cloud
+    # Build from Dockerfile in ./Cloud directory
+    build:
+      context: ./Cloud
+      dockerfile: Dockerfile
+    image: cloud-exp:1.2
+
+    # Map port 8080 in the container to port 8080 on the host
+    ports:
+      - "8080:8080"
+
+    # Mount ./data directory to /data in the container
+    volumes:
+      - ./data:/data
+
+    # Network mode and IP address
+    networks:
+      internet:
+
+# Networks
 networks:
   internet:
-    external: true
+
