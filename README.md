@@ -11,7 +11,7 @@ Before starting, we have to install docker, docker-compose, and docker swarm on 
 The application follows a micro-service approach with three services, drones, an Edge server (BaseStation), and a Cloud server. The following image highlights the service yaml docker-compose representation of the application.
 
 <p align="center">
-  <img src="explain.png" width="20%" />
+  <img src="explain.png" width="35%" />
 </p>
 
 ## Drone
