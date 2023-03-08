@@ -10,7 +10,7 @@ services:
     # Environment variables
     environment:
       ALL_TOGETHER: "True"
-      FIRST_COUNTER: "False"
+      FIRST_COUNTER: "True"
       USE_FOLDER_FOR_SAVE: "True"
 
     # Build from Dockerfile in ./BaseStation directory
@@ -31,7 +31,7 @@ services:
     networks:
       internet:
 
-  # Edge Service
+  # Drone Service
   edge:
     container_name: drone
     # Environment variables
@@ -39,11 +39,11 @@ services:
       ALL_TOGETHER: "True"
       NUMBER_OF_IMAGES: "2"
 
-    # Build from Dockerfile in ./Edge directory
+    # Build from Dockerfile in ./Drone directory
     build:
-      context: ./Edge
+      context: Drone
       dockerfile: Dockerfile
-    image: edge-exp:1.0
+    image: drone-exp:1.0
 
     # Network mode and network dependencies
     networks:
