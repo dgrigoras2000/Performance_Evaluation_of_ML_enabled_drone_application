@@ -124,7 +124,7 @@ async def drone(num_pic: int, num_of_repeats: int, files: List[UploadFile] = Fil
     end_time = time.time()  # get the current time again
     elapsed_time = end_time - start_time - send_elapsed_time  # calculate the elapsed time
 
-    print(f"Latency time for drone: {elapsed_time} seconds")
+    print(f"Latency time for BaseStation: {elapsed_time} seconds")
     # If cloud response is successful, return a success response. Otherwise, return an error response.
     if cloud_response:
         return VehicleCountResponse(
