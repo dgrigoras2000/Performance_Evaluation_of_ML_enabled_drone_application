@@ -3,6 +3,7 @@ import ast  # Library to convert strings to Python objects
 import json  # Library to encode and decode JSON data
 import logging  # Library to log messages
 import os.path  # Library to work with file and directory paths
+import time
 from typing import List  # Library for typed list of elements
 
 import requests  # Library to make HTTP requests
@@ -78,6 +79,9 @@ async def send_to_cloud(service, data):
 
 @app.post("/import/images/{num_pic}/{num_of_repeats}", response_model=VehicleCountResponse)
 async def drone(num_pic: int, num_of_repeats: int, files: List[UploadFile] = File(...)):
+    send_end_time = 0
+    send_start_time = 0
+    start_time = time.time()  # get the current time in seconds
     # Set a default value for cloud response
     cloud_response = True
     # Create an instance of BasestationMain
@@ -101,16 +105,26 @@ async def drone(num_pic: int, num_of_repeats: int, files: List[UploadFile] = Fil
         )
 
     # If processing all images together, send response to cloud and update cloud_response variable
+
     if ALL_TOGETHER:
+        send_start_time = time.time()  # get the current time in seconds
         cloud_response = await send_to_cloud(service, response)
+        send_end_time = time.time()  # get the current time again
         print(f"Cloud response: {cloud_response}")
 
     # If all images have been processed, send the updated response_cloud dictionary to cloud
     # and update cloud_response variable
     if num_pic + len(files) is num_of_repeats:
+        send_start_time = time.time()  # get the current time in seconds
         cloud_response = await send_to_cloud(service, response_cloud)
+        send_end_time = time.time()  # get the current time again
         print(f"Cloud response: {cloud_response}")
 
+    send_elapsed_time = send_end_time - send_start_time  # calculate the elapsed time
+    end_time = time.time()  # get the current time again
+    elapsed_time = end_time - start_time - send_elapsed_time  # calculate the elapsed time
+
+    print(f"Latency time for drone: {elapsed_time} seconds")
     # If cloud response is successful, return a success response. Otherwise, return an error response.
     if cloud_response:
         return VehicleCountResponse(

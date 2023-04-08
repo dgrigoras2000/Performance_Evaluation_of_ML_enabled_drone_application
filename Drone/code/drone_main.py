@@ -3,6 +3,7 @@ import ast  # For literal evaluation of strings to Python objects
 import fnmatch  # For pattern matching of filenames
 import logging  # For logging error messages
 import os  # For interacting with the file system
+import time
 
 import requests  # For making HTTP requests
 import simplejson as json  # For parsing JSON data
@@ -27,6 +28,8 @@ class DroneMain:
         self.images_list = []
         # Initialize the image array as None
         self.image_arr = None
+        # Initialize send time to zero
+        self.send_elapsed_time = 0
 
     # Define a function for finding files in a directory that match a given pattern
     @staticmethod
@@ -40,6 +43,7 @@ class DroneMain:
 
     # Define a function for loading the images from the specified directory
     def load_images(self):
+        start_time = time.time()  # get the current time in seconds
         # Load images from a folder
         for filename in self.find_files(img_dir_path, '*.jpg'):
             # Open the image file and add it to the list of images to be sent
@@ -56,6 +60,11 @@ class DroneMain:
         logging.error(f"Basestation response: {response}")
         # Print a message indicating that a response has been received from the basestation
         print("Received from BaseStation")
+
+        end_time = time.time()  # get the current time again
+        elapsed_time = end_time - start_time - self.send_elapsed_time  # calculate the elapsed time
+
+        print(f"Latency time for drone: {elapsed_time} seconds")
         return
 
     ############################################################################################
@@ -87,6 +96,7 @@ class DroneMain:
         # If the flag ALL_TOGETHER is set to True, send all pictures together
         if ALL_TOGETHER:
             way_of_send = "Use list to send all pictures together "
+            send_start_time = time.time()  # get the current time in seconds
             try:
                 response = requests.post(
                     url=f"http://{BASESTATION_URL}/import/images/0/0",  # Endpoint URL to send images
@@ -116,6 +126,8 @@ class DroneMain:
             way_of_send = f"Use segments to send pictures in list with number of pics to group: {imgs_in_segments}."
             list_num_elements = []
             response = {}
+
+            send_start_time = time.time()  # get the current time in seconds
 
             # Iterate over the list of images and group them in segments
             for num_pic in range(0, total_num_of_imgs, imgs_in_segments):
@@ -153,7 +165,9 @@ class DroneMain:
                                      )
                 # Reset list of images for next segment
                 list_num_elements = []
+        send_end_time = time.time()  # get the current time again
 
+        self.send_elapsed_time = send_end_time - send_start_time  # calculate the elapsed time
         # Log way of sending images
         logging.error(way_of_send)
         # Return success message from response
