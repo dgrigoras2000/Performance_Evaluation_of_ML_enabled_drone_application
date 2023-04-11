@@ -7,6 +7,8 @@ import json  # for working with JSON data
 import logging  # for logging messages
 import os  # for working with the operating system
 import os.path  # for working with file paths
+import time
+import datetime
 
 import cv2  # for working with images using OpenCV library
 import numpy as np  # for working with numerical arrays
@@ -35,6 +37,7 @@ class BasestationMain:
         # Initialize vehicle counters
         self.vehicle_counter_1 = VehicleCounting1()
         self.vehicle_counter_2 = VehicleCounting2()
+        self.txt_file = None
 
     @staticmethod
     def find_files(directory, pattern):
@@ -59,6 +62,12 @@ class BasestationMain:
         filelist = glob.glob(os.path.join(dir_path, "*.jpg"))
         for f in filelist:
             os.remove(f)
+
+    def create_logs(self, txt_log):
+        dt = datetime.datetime.fromtimestamp(time.time())
+        # format the datetime object as a string with the hour in 24-hour format
+        date_string = dt.strftime('%d-%m-%Y %H:%M:%S')
+        self.txt_file.write(f"{date_string} basestation_main  | {txt_log}\n")
 
     # Process all images in a list at once and return a response
     def all_together(self, files):
@@ -117,6 +126,8 @@ class BasestationMain:
         save = ""
         count = 0
 
+        self.txt_file = open('/data/logs.txt', 'a')
+
         # Loop through all the files
         for file in files:
             contents = file.file.read()
@@ -166,13 +177,13 @@ class BasestationMain:
 
         # Log the information and empty the folder used for saving
         logging.error(f"Divided in segments ({count}) | " + save + counter)
+        self.create_logs(f"Divided in segments ({count}) | " + save + counter)
         self.empty_dir()
 
         # Return response from selected counter for cars in images
         return response
 
-    @staticmethod
-    def send_to_cloud(road_info):
+    def send_to_cloud(self, road_info):
         try:
             # Send a POST request to the cloud service with road_info data as the payload
             response = requests.post(
@@ -184,6 +195,7 @@ class BasestationMain:
             # Check if the response status code is 200 (success)
             if response.status_code == 200:  # Raise an exception if the response status code is not 200
                 logging.error("Request was successful")
+                self.create_logs("Request was successful from cloud")
             else:
                 # Raise a SystemExit exception if the response status code is not 200
                 raise SystemExit(f"Request failed with status code: {response.status_code}")

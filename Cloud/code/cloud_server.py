@@ -1,5 +1,6 @@
 # Importing the FastAPI framework and the CloudMain class from another module
 import time
+import datetime
 from fastapi import Body
 from fastapi import FastAPI
 
@@ -7,6 +8,15 @@ from cloud_main import CloudMain
 
 # Creating a new FastAPI app instance
 app = FastAPI()
+
+txt_file = open('/data/logs.txt', 'a')
+
+
+def create_logs(txt_log):
+    dt = datetime.datetime.fromtimestamp(time.time())
+    # format the datetime object as a string with the hour in 24-hour format
+    date_string = dt.strftime('%d-%m-%Y %H:%M:%S')
+    txt_file.write(f"{date_string} cloud_server   | {txt_log}\n")
 
 
 # Defining a route for checking the connection to the Cloud Server
@@ -22,6 +32,7 @@ async def cloud1(road_info: dict = Body(...)):
 
     # Printing the received information for debugging purposes
     print(f"road_info: {road_info}")
+    create_logs(f"road_info: {road_info}")
     # Creating an instance of the CloudMain class
     service = CloudMain()
     # Calling the 'road_check' method of the CloudMain instance with the received information
@@ -31,6 +42,9 @@ async def cloud1(road_info: dict = Body(...)):
     elapsed_time = end_time - start_time  # calculate the elapsed time
 
     print(f"Elapsed time for cloud: {elapsed_time} seconds")
+    str_time = f"Elapsed time for cloud: {elapsed_time} seconds"
+    create_logs(str_time)
+
     # Returning the response from the 'road_check' method
     return response
 

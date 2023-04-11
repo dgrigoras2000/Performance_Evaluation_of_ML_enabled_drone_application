@@ -4,6 +4,7 @@ import json  # Library to encode and decode JSON data
 import logging  # Library to log messages
 import os.path  # Library to work with file and directory paths
 import time
+import datetime
 from typing import List  # Library for typed list of elements
 
 import requests  # Library to make HTTP requests
@@ -20,12 +21,12 @@ USE_FOLDER_FOR_SAVE = ast.literal_eval(os.getenv("USE_FOLDER_FOR_SAVE", "True"))
 ALL_TOGETHER = ast.literal_eval(os.getenv("ALL_TOGETHER", "True"))
 CLOUD_URL = os.getenv('CLOUD_URL')
 
-
 # Set a directory path as a string
 dir_path = "Basestation_Images"
 
 # Define a global variable to store data
 response_cloud = {}
+txt_file = open('/data/logs.txt', 'a')
 
 # Create a new instance of the FastAPI framework
 app = FastAPI()
@@ -35,6 +36,13 @@ app = FastAPI()
 class VehicleCountResponse(BaseModel):
     success: bool
     message: str
+
+
+async def create_logs(txt_log):
+    dt = datetime.datetime.fromtimestamp(time.time())
+    # format the datetime object as a string with the hour in 24-hour format
+    date_string = dt.strftime('%d-%m-%Y %H:%M:%S')
+    txt_file.write(f"{date_string} basestation_server  | {txt_log}\n")
 
 
 # Endpoint to check connection between drone-basestation
@@ -56,7 +64,8 @@ async def send_to_cloud(service, data):
         # Check if the response status code is 200
         if response.status_code == 200:  # Raise an exception if the response status code is not 200
             # Log that the request was successful
-            logging.error("Request was successful")
+            logging.error("Request was successful for cloud")
+            create_logs("Request was successful for cloud")
         else:
             # Raise a SystemExit exception with the response status code if it is not 200
             raise SystemExit(f"Request failed with status code: {response.status_code}")
@@ -147,10 +156,12 @@ if __name__ == "__main__":
         # Check if the specified directory already exists
         if os.path.exists(dir_path):
             logging.error("Directory already exists.")
+            create_logs("Directory already exists.")
         else:
             # Create the directory if it does not exist
             os.mkdir(dir_path)
             logging.error("Directory created.")
+            create_logs("Directory created.")
 
     try:
         # Start the server using Uvicorn

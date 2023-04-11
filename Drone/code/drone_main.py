@@ -5,6 +5,7 @@ import fnmatch  # For pattern matching of filenames
 import logging  # For logging error messages
 import os  # For interacting with the file system
 import time
+import datetime
 
 import requests  # For making HTTP requests
 import simplejson as json  # For parsing JSON data
@@ -56,7 +57,10 @@ class DroneMain:
         writer.writerow(csv_data)
 
     def create_logs(self, txt_log):
-        self.txt_file.write(f"drone      | {txt_log}\n")
+        dt = datetime.datetime.fromtimestamp(time.time())
+        # format the datetime object as a string with the hour in 24-hour format
+        date_string = dt.strftime('%d-%m-%Y %H:%M:%S')
+        self.txt_file.write(f"{date_string} drone                     | {txt_log}\n")
 
     # Define a function for loading the images from the specified directory
     def load_images(self):
@@ -71,7 +75,7 @@ class DroneMain:
         header = ["ID", "Description", "Start Time", "End Time", "Total Time"]
         (csv.writer(self.csv_file)).writerow(header)
 
-        self.txt_file = open('/data/logs.txt', 'w')
+        self.txt_file = open('/data/logs.txt', 'a')
 
         # Get the total number of images
         total_num_of_imgs = len(self.images_list)
