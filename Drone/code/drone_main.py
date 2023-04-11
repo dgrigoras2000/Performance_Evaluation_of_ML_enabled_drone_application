@@ -94,18 +94,62 @@ class DroneMain:
         print(json.loads(response.text) + "\n\n" + "Waiting for basestation response...\n")
 
         # If the flag ALL_TOGETHER is set to True, send all pictures together
+        # if ALL_TOGETHER:
+        #     way_of_send = "Use list to send all pictures together "
+        #     send_start_time = time.time()  # get the current time in seconds
+        #     try:
+        #         response = requests.post(
+        #             url=f"http://{BASESTATION_URL}/import/images/0/0",  # Endpoint URL to send images
+        #             files=self.images_list,  # Images to be sent
+        #             timeout=60
+        #         )
+        #         if response.status_code == 200:  # Raise an exception if the response status code is not 200
+        #             # If the status code is 200, log that the request was successful
+        #             logging.error("Request was successful")
+        #         else:
+        #             # If the status code is different from 200, raise an exception with the status code
+        #             raise SystemExit(f"Request failed with status code: {response.status_code}")
+        #     except requests.exceptions.Timeout:
+        #         # If the request times out, raise an exception
+        #         raise SystemExit("Request timed out")
+        #     except requests.exceptions.RequestException as e:
+        #         # If any other exception occurs, raise an exception with the error message
+        #         raise SystemExit(f"An error occurred: {e}")
+        #
+        #     # If the 'success' key in the JSON response is False, raise an exception
+        #     if not json.loads(response.text)["success"]:
+        #         raise SystemExit("Something went wrong with the process in BaseStation")
+
+        # If the flag ALL_TOGETHER is set to False, group pictures by a defined number of images
         if ALL_TOGETHER:
-            way_of_send = "Use list to send all pictures together "
-            send_start_time = time.time()  # get the current time in seconds
+            imgs_in_segments = total_num_of_imgs
+        else:
+            imgs_in_segments = NUMBER_OF_IMAGES
+
+        way_of_send = f"Use segments to send pictures in list with number of pics to group: {imgs_in_segments}."
+        list_num_elements = []
+        response = {}
+
+        send_start_time = time.time()  # get the current time in seconds
+
+        # Iterate over the list of images and group them in segments
+        for num_pic in range(0, total_num_of_imgs, imgs_in_segments):
+            # Loop over the range of the segment and add images to the list_num_elements
+            for x in range(0, imgs_in_segments):
+                if num_pic + x < total_num_of_imgs:
+                    list_num_elements.append(self.images_list[num_pic + x])
+
             try:
                 response = requests.post(
-                    url=f"http://{BASESTATION_URL}/import/images/0/0",  # Endpoint URL to send images
-                    files=self.images_list,  # Images to be sent
+                    # Endpoint URL to send images
+                    url=f"http://{BASESTATION_URL}/import/images/{num_pic}/{total_num_of_imgs}",
+                    files=list_num_elements,  # Images to be sent
                     timeout=60
                 )
-                if response.status_code == 200:  # Raise an exception if the response status code is not 200
-                    # If the status code is 200, log that the request was successful
-                    logging.error("Request was successful")
+                if response.status_code == 200:
+                    # If the status code is 200,
+                    # log that the request was successful along with the current segment number
+                    logging.error(f"Request was successful {num_pic}")
                 else:
                     # If the status code is different from 200, raise an exception with the status code
                     raise SystemExit(f"Request failed with status code: {response.status_code}")
@@ -116,55 +160,15 @@ class DroneMain:
                 # If any other exception occurs, raise an exception with the error message
                 raise SystemExit(f"An error occurred: {e}")
 
-            # If the 'success' key in the JSON response is False, raise an exception
+            # If the 'success' key in the JSON response is False,
+            # raise an exception with error message from response
             if not json.loads(response.text)["success"]:
-                raise SystemExit("Something went wrong with the process in BaseStation")
-
-        else:
-            # If the flag ALL_TOGETHER is set to False, group pictures by a defined number of images
-            imgs_in_segments = NUMBER_OF_IMAGES
-            way_of_send = f"Use segments to send pictures in list with number of pics to group: {imgs_in_segments}."
+                raise SystemExit(f"Something went wrong with the process in BaseStation\n"
+                                 f"{json.loads(response.text)['message']}"
+                                 )
+            # Reset list of images for next segment
             list_num_elements = []
-            response = {}
 
-            send_start_time = time.time()  # get the current time in seconds
-
-            # Iterate over the list of images and group them in segments
-            for num_pic in range(0, total_num_of_imgs, imgs_in_segments):
-                # Loop over the range of the segment and add images to the list_num_elements
-                for x in range(0, imgs_in_segments):
-                    if num_pic + x < total_num_of_imgs:
-                        list_num_elements.append(self.images_list[num_pic + x])
-
-                try:
-                    response = requests.post(
-                        # Endpoint URL to send images
-                        url=f"http://{BASESTATION_URL}/import/images/{num_pic}/{total_num_of_imgs}",
-                        files=list_num_elements,  # Images to be sent
-                        timeout=60
-                    )
-                    if response.status_code == 200:
-                        # If the status code is 200,
-                        # log that the request was successful along with the current segment number
-                        logging.error(f"Request was successful {num_pic}")
-                    else:
-                        # If the status code is different from 200, raise an exception with the status code
-                        raise SystemExit(f"Request failed with status code: {response.status_code}")
-                except requests.exceptions.Timeout:
-                    # If the request times out, raise an exception
-                    raise SystemExit("Request timed out")
-                except requests.exceptions.RequestException as e:
-                    # If any other exception occurs, raise an exception with the error message
-                    raise SystemExit(f"An error occurred: {e}")
-
-                # If the 'success' key in the JSON response is False,
-                # raise an exception with error message from response
-                if not json.loads(response.text)["success"]:
-                    raise SystemExit(f"Something went wrong with the process in BaseStation\n"
-                                     f"{json.loads(response.text)['message']}"
-                                     )
-                # Reset list of images for next segment
-                list_num_elements = []
         send_end_time = time.time()  # get the current time again
 
         self.send_elapsed_time = send_end_time - send_start_time  # calculate the elapsed time
