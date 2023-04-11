@@ -60,7 +60,7 @@ class DroneMain:
         dt = datetime.datetime.fromtimestamp(time.time())
         # format the datetime object as a string with the hour in 24-hour format
         date_string = dt.strftime('%d-%m-%Y %H:%M:%S')
-        self.txt_file.write(f"{date_string} drone                     | {txt_log}\n")
+        self.txt_file.write(f"{date_string} drone  | {txt_log}\n")
 
     # Define a function for loading the images from the specified directory
     def load_images(self):
@@ -75,7 +75,7 @@ class DroneMain:
         header = ["ID", "Description", "Start Time", "End Time", "Total Time"]
         (csv.writer(self.csv_file)).writerow(header)
 
-        self.txt_file = open('/data/logs.txt', 'a')
+        self.txt_file = open('/data/drone_logs.txt', 'w')
 
         # Get the total number of images
         total_num_of_imgs = len(self.images_list)

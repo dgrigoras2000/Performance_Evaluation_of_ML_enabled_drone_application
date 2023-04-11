@@ -9,10 +9,8 @@ from cloud_main import CloudMain
 # Creating a new FastAPI app instance
 app = FastAPI()
 
-txt_file = open('/data/logs.txt', 'a')
 
-
-def create_logs(txt_log):
+def create_logs(txt_file, txt_log):
     dt = datetime.datetime.fromtimestamp(time.time())
     # format the datetime object as a string with the hour in 24-hour format
     date_string = dt.strftime('%d-%m-%Y %H:%M:%S')
@@ -29,10 +27,10 @@ async def check_connection():
 @app.post("/cloud/information")
 async def cloud1(road_info: dict = Body(...)):
     start_time = time.time()  # get the current time in seconds
-
+    txt_file = open('/data/cloud_logs.txt', 'w')
     # Printing the received information for debugging purposes
     print(f"road_info: {road_info}")
-    create_logs(f"road_info: {road_info}")
+    create_logs(txt_file, f"road_info: {road_info}")
     # Creating an instance of the CloudMain class
     service = CloudMain()
     # Calling the 'road_check' method of the CloudMain instance with the received information
@@ -43,7 +41,7 @@ async def cloud1(road_info: dict = Body(...)):
 
     print(f"Elapsed time for cloud: {elapsed_time} seconds")
     str_time = f"Elapsed time for cloud: {elapsed_time} seconds"
-    create_logs(str_time)
+    create_logs(txt_file, str_time)
 
     # Returning the response from the 'road_check' method
     return response

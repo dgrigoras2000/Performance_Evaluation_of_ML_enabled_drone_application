@@ -37,7 +37,7 @@ class BasestationMain:
         # Initialize vehicle counters
         self.vehicle_counter_1 = VehicleCounting1()
         self.vehicle_counter_2 = VehicleCounting2()
-        self.txt_file = None
+        self.txt_file = open('/data/basestation_logs.txt', 'a')
 
     @staticmethod
     def find_files(directory, pattern):
@@ -67,7 +67,7 @@ class BasestationMain:
         dt = datetime.datetime.fromtimestamp(time.time())
         # format the datetime object as a string with the hour in 24-hour format
         date_string = dt.strftime('%d-%m-%Y %H:%M:%S')
-        self.txt_file.write(f"{date_string} basestation_main  | {txt_log}\n")
+        self.txt_file.write(f"{date_string} basestation_main    | {txt_log}\n")
 
     # Process all images in a list at once and return a response
     def all_together(self, files):
@@ -125,8 +125,6 @@ class BasestationMain:
         images_list = []
         save = ""
         count = 0
-
-        self.txt_file = open('/data/logs.txt', 'a')
 
         # Loop through all the files
         for file in files:

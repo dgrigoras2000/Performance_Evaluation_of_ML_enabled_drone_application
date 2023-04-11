@@ -26,7 +26,6 @@ dir_path = "Basestation_Images"
 
 # Define a global variable to store data
 response_cloud = {}
-txt_file = open('/data/logs.txt', 'a')
 
 # Create a new instance of the FastAPI framework
 app = FastAPI()
@@ -38,7 +37,7 @@ class VehicleCountResponse(BaseModel):
     message: str
 
 
-async def create_logs(txt_log):
+def create_logs(txt_file, txt_log):
     dt = datetime.datetime.fromtimestamp(time.time())
     # format the datetime object as a string with the hour in 24-hour format
     date_string = dt.strftime('%d-%m-%Y %H:%M:%S')
@@ -65,7 +64,6 @@ async def send_to_cloud(service, data):
         if response.status_code == 200:  # Raise an exception if the response status code is not 200
             # Log that the request was successful
             logging.error("Request was successful for cloud")
-            create_logs("Request was successful for cloud")
         else:
             # Raise a SystemExit exception with the response status code if it is not 200
             raise SystemExit(f"Request failed with status code: {response.status_code}")
@@ -93,6 +91,10 @@ async def drone(num_pic: int, num_of_repeats: int, files: List[UploadFile] = Fil
     start_time = time.time()  # get the current time in seconds
     # Set a default value for cloud response
     cloud_response = True
+    if os.path.exists('/data/basestation_logs.txt'):
+        txt_file = open('/data/basestation_logs.txt', 'a')
+    else:
+        txt_file = open('/data/basestation_logs.txt', 'w')
     # Create an instance of BasestationMain
     service = BasestationMain()
 
@@ -128,12 +130,14 @@ async def drone(num_pic: int, num_of_repeats: int, files: List[UploadFile] = Fil
         cloud_response = await send_to_cloud(service, response_cloud)
         send_end_time = time.time()  # get the current time again
         print(f"Cloud response: {cloud_response}")
+        create_logs(txt_file, f"Cloud response: {cloud_response}")
 
     send_elapsed_time = send_end_time - send_start_time  # calculate the elapsed time
     end_time = time.time()  # get the current time again
     elapsed_time = end_time - start_time - send_elapsed_time  # calculate the elapsed time
 
     print(f"Latency time for BaseStation: {elapsed_time} seconds")
+    create_logs(txt_file, f"Latency time for BaseStation: {elapsed_time} seconds")
     # If cloud response is successful, return a success response. Otherwise, return an error response.
     if cloud_response:
         return VehicleCountResponse(
@@ -156,12 +160,10 @@ if __name__ == "__main__":
         # Check if the specified directory already exists
         if os.path.exists(dir_path):
             logging.error("Directory already exists.")
-            create_logs("Directory already exists.")
         else:
             # Create the directory if it does not exist
             os.mkdir(dir_path)
             logging.error("Directory created.")
-            create_logs("Directory created.")
 
     try:
         # Start the server using Uvicorn
