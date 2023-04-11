@@ -71,7 +71,7 @@ class DroneMain:
             img_tuple = ('files', open(filename, 'rb'))
             self.images_list.append(img_tuple)
 
-        self.csv_file = open('/data/Timers.csv', "w", newline="")
+        self.csv_file = open('/data/drone_times.csv', "w", newline="")
         header = ["ID", "Description", "Start Time", "End Time", "Total Time"]
         (csv.writer(self.csv_file)).writerow(header)
 

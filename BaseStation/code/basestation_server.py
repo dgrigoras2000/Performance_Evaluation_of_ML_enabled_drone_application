@@ -1,10 +1,11 @@
 # Import necessary modules and libraries
 import ast  # Library to convert strings to Python objects
+import csv
+import datetime
 import json  # Library to encode and decode JSON data
 import logging  # Library to log messages
 import os.path  # Library to work with file and directory paths
 import time
-import datetime
 from typing import List  # Library for typed list of elements
 
 import requests  # Library to make HTTP requests
@@ -42,6 +43,19 @@ def create_logs(txt_file, txt_log):
     # format the datetime object as a string with the hour in 24-hour format
     date_string = dt.strftime('%d-%m-%Y %H:%M:%S')
     txt_file.write(f"{date_string} basestation_server  | {txt_log}\n")
+
+
+def create_data(t_id, desc, start, end):
+    row = [t_id, desc, start, end, end - start]
+    return row
+
+
+def save_csv(csv_file, csv_data):
+    # open a new CSV file in write mode
+    writer = csv.writer(csv_file)
+
+    # write each row to the CSV file
+    writer.writerow(csv_data)
 
 
 # Endpoint to check connection between drone-basestation
@@ -93,8 +107,13 @@ async def drone(num_pic: int, num_of_repeats: int, files: List[UploadFile] = Fil
     cloud_response = True
     if os.path.exists('/data/basestation_logs.txt'):
         txt_file = open('/data/basestation_logs.txt', 'a')
+        csv_file = open('/data/basestation_times.csv', "a", newline="")
     else:
         txt_file = open('/data/basestation_logs.txt', 'w')
+        csv_file = open('/data/basestation_times.csv', "w", newline="")
+        header = ["ID", "Description", "Start Time", "End Time", "Total Time"]
+        (csv.writer(csv_file)).writerow(header)
+
     # Create an instance of BasestationMain
     service = BasestationMain()
 
@@ -135,6 +154,7 @@ async def drone(num_pic: int, num_of_repeats: int, files: List[UploadFile] = Fil
     send_elapsed_time = send_end_time - send_start_time  # calculate the elapsed time
     end_time = time.time()  # get the current time again
     elapsed_time = end_time - start_time - send_elapsed_time  # calculate the elapsed time
+    save_csv(csv_file, create_data(num_pic, "StartEndTime", start_time, end_time))
 
     print(f"Latency time for BaseStation: {elapsed_time} seconds")
     create_logs(txt_file, f"Latency time for BaseStation: {elapsed_time} seconds")
