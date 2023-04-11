@@ -9,7 +9,7 @@ services:
     container_name: basestation
     # Environment variables
     environment:
-      ALL_TOGETHER: "True"
+      ALL_TOGETHER: "False"
       FIRST_COUNTER: "True"
       USE_FOLDER_FOR_SAVE: "True"
       CLOUD_URL: "cloud:8080"
@@ -38,7 +38,7 @@ services:
     container_name: drone
     # Environment variables
     environment:
-      ALL_TOGETHER: "True"
+      ALL_TOGETHER: "False"
       NUMBER_OF_IMAGES: "2"
       BASESTATION_URL: "basestation:8000"
 
@@ -47,6 +47,10 @@ services:
       context: Drone
       dockerfile: Dockerfile
     image: drone-exp:1.0
+
+    # Mount ./data directory to /data in the container
+    volumes:
+      - ./data:/data
 
     # Network mode and network dependencies
     networks:

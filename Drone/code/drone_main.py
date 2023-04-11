@@ -1,5 +1,6 @@
 # Import necessary modules
 import ast  # For literal evaluation of strings to Python objects
+import csv
 import fnmatch  # For pattern matching of filenames
 import logging  # For logging error messages
 import os  # For interacting with the file system
@@ -30,6 +31,8 @@ class DroneMain:
         self.image_arr = None
         # Initialize send time to zero
         self.send_elapsed_time = 0
+        self.csv_file = None
+        self.txt_file = None
 
     # Define a function for finding files in a directory that match a given pattern
     @staticmethod
@@ -38,8 +41,22 @@ class DroneMain:
             for basename in files:
                 if fnmatch.fnmatch(basename, pattern):
                     filename = os.path.join(root, basename)
-
                     yield filename
+
+    @staticmethod
+    def create_data(t_id, desc, start, end):
+        row = [t_id, desc, start, end, end - start]
+        return row
+
+    def save_csv(self, csv_data):
+        # open a new CSV file in write mode
+        writer = csv.writer(self.csv_file)
+
+        # write each row to the CSV file
+        writer.writerow(csv_data)
+
+    def create_logs(self, txt_log):
+        self.txt_file.write(f"drone      | {txt_log}\n")
 
     # Define a function for loading the images from the specified directory
     def load_images(self):
@@ -50,6 +67,12 @@ class DroneMain:
             img_tuple = ('files', open(filename, 'rb'))
             self.images_list.append(img_tuple)
 
+        self.csv_file = open('/data/Timers.csv', "w", newline="")
+        header = ["ID", "Description", "Start Time", "End Time", "Total Time"]
+        (csv.writer(self.csv_file)).writerow(header)
+
+        self.txt_file = open('/data/logs.txt', 'w')
+
         # Get the total number of images
         total_num_of_imgs = len(self.images_list)
 
@@ -58,20 +81,23 @@ class DroneMain:
 
         # Log an error message indicating the response from the basestation
         logging.error(f"Basestation response: {response}")
+        self.create_logs(f"Basestation response: {response}")
         # Print a message indicating that a response has been received from the basestation
         print("Received from BaseStation")
 
         end_time = time.time()  # get the current time again
-        elapsed_time = end_time - start_time - self.send_elapsed_time  # calculate the elapsed time
+        elapsed_time = end_time - start_time  # calculate the elapsed time
+
+        self.save_csv(self.create_data(10, "StartEndTime", start_time, end_time))
 
         print(f"Latency time for drone: {elapsed_time} seconds")
+        self.create_logs(f"Latency time for drone: {elapsed_time} seconds")
         return
 
     ############################################################################################
 
     # Define a function for sending the images to the basestation
     def send_images(self, total_num_of_imgs):
-
         # Print a message indicating that the code is waiting for the connection to be established
         print("Waiting for connection establishment with BaseStation...")
 
@@ -81,6 +107,8 @@ class DroneMain:
             if response.status_code == 200:
                 # If the response status code is 200, log a message indicating that the request was successful
                 logging.error("Request was successful")
+                self.create_logs("Request was successful")
+
             else:
                 # If the response status code is not 200, raise a SystemExit exception with an error message
                 raise SystemExit(f"Request failed with status code: {response.status_code}")
@@ -130,10 +158,9 @@ class DroneMain:
         list_num_elements = []
         response = {}
 
-        send_start_time = time.time()  # get the current time in seconds
-
         # Iterate over the list of images and group them in segments
         for num_pic in range(0, total_num_of_imgs, imgs_in_segments):
+            send_start_time = time.time()  # get the current time in seconds
             # Loop over the range of the segment and add images to the list_num_elements
             for x in range(0, imgs_in_segments):
                 if num_pic + x < total_num_of_imgs:
@@ -168,12 +195,14 @@ class DroneMain:
                                  )
             # Reset list of images for next segment
             list_num_elements = []
+            send_end_time = time.time()  # get the current time again
+            csv_data = self.create_data(num_pic, "Time to send images", send_start_time, send_end_time)
+            self.save_csv(csv_data)
 
-        send_end_time = time.time()  # get the current time again
-
-        self.send_elapsed_time = send_end_time - send_start_time  # calculate the elapsed time
         # Log way of sending images
         logging.error(way_of_send)
+        self.create_logs(way_of_send)
+
         # Return success message from response
         return json.loads(response.text)["message"]
 

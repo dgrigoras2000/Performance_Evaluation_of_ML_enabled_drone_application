@@ -1,0 +1,4 @@
+drone      | Request was successful
+drone      | Use segments to send pictures in list with number of pics to group: 2.
+drone      | Basestation response: Process completed successfully
+drone      | Latency time for drone: 7.163634300231934 seconds
