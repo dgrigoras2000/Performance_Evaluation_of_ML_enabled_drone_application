@@ -1,11 +1,11 @@
 # Import necessary modules
 import ast  # For literal evaluation of strings to Python objects
 import csv
+import datetime
 import fnmatch  # For pattern matching of filenames
 import logging  # For logging error messages
 import os  # For interacting with the file system
 import time
-import datetime
 
 import requests  # For making HTTP requests
 import simplejson as json  # For parsing JSON data
@@ -202,6 +202,8 @@ class DroneMain:
             send_end_time = time.time()  # get the current time again
             csv_data = self.create_data(num_pic, "Time to send images", send_start_time, send_end_time)
             self.save_csv(csv_data)
+            print('Sleeping for 5 seconds...')
+            time.sleep(5)
 
         # Log way of sending images
         logging.error(way_of_send)
