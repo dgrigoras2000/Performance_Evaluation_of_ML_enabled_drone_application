@@ -1,5 +1,6 @@
 # Import necessary modules and libraries
 import ast  # for parsing strings into Python objects
+import datetime
 import fnmatch  # for file name pattern matching
 import glob  # for searching file path-names
 import io  # for working with I/O streams
@@ -8,7 +9,6 @@ import logging  # for logging messages
 import os  # for working with the operating system
 import os.path  # for working with file paths
 import time
-import datetime
 
 import cv2  # for working with images using OpenCV library
 import numpy as np  # for working with numerical arrays
@@ -68,58 +68,6 @@ class BasestationMain:
         # format the datetime object as a string with the hour in 24-hour format
         date_string = dt.strftime('%d-%m-%Y %H:%M:%S')
         self.txt_file.write(f"{date_string} basestation_main    | {txt_log}\n")
-
-    # Process all images in a list at once and return a response
-    def all_together(self, files):
-        # Initialize empty list to store processed images
-        images_list = []
-        # Initialize save variable for logging purposes
-        save = ""
-        for file in files:
-            contents = file.file.read()
-            # Open image from file contents
-            image = Image.open(io.BytesIO(contents))
-
-            if USE_FOLDER_FOR_SAVE:  # Save in folder and make a list with.
-                save = "Use folder to save | "
-                self.save_img(image, files.index(file))
-            else:  # Don't save and make a list with numpy ndarray each image.
-                save = "No use folder to save | "
-                if FIRST_COUNTER:
-                    # Convert image to a numpy array and append to the list
-                    image_array = np.array(image)
-                    images_list.append(image_array)
-                else:
-                    # Apply the ToTensor transform to convert the image to a PyTorch tensor and append to the list
-                    images_list.append(transforms.ToTensor()(image))
-
-        if USE_FOLDER_FOR_SAVE:
-            # Load images from a folder
-            for pic_address in self.find_files(dir_path, '*.jpg'):
-                # Check if it's the first counter being selected
-                if FIRST_COUNTER:
-                    # Load image with OpenCV and append to images list
-                    images_list.append(cv2.imread(pic_address))
-                else:
-                    # Load image with custom read_image function and append to images list
-                    images_list.append(read_image(pic_address))
-
-        # Choose which vehicle counting method to use based on the value of the FIRST_COUNTER variable
-        if FIRST_COUNTER:
-            # vehicle_counter_1 object's vehicle_count method is called on the list of images (images_list)
-            response = self.vehicle_counter_1.vehicle_count(images_list, None)
-            counter = "and the vehicle counting (First)."
-        else:
-            # vehicle_counter_2 object's vehicle_count_2 method is called on the list of images (images_list)
-            response = self.vehicle_counter_2.vehicle_count_2(images_list, None)
-            counter = "and the car recognition second (Second)."
-
-        # Log message with save and counter info
-        print("All together | " + save + counter)
-        # Empty saved images folder
-        self.empty_dir()
-
-        return response
 
     def divide_in_segments(self, files, num_pic):
         images_list = []

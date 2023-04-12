@@ -105,27 +105,30 @@ async def drone(num_pic: int, num_of_repeats: int, files: List[UploadFile] = Fil
     start_time = time.time()  # get the current time in seconds
     # Set a default value for cloud response
     cloud_response = True
+
+    # Check if log and CSV files exist.
     if os.path.exists('/data/basestation_logs.txt'):
+        # Open existing text file in 'append' mode
         txt_file = open('/data/basestation_logs.txt', 'a')
+        # Open existing CSV file in 'append' mode
         csv_file = open('/data/basestation_times.csv', "a", newline="")
     else:
+        # Create new text file and open in 'write' mode
         txt_file = open('/data/basestation_logs.txt', 'w')
+        # Create new CSV file and open in 'write' mode
         csv_file = open('/data/basestation_times.csv', "w", newline="")
+        # Define header for CSV file
         header = ["ID", "Description", "Start Time", "End Time", "Total Time"]
+        # Write header to CSV file
         (csv.writer(csv_file)).writerow(header)
 
     # Create an instance of BasestationMain
     service = BasestationMain()
 
-    # Check if images should be processed all together or in segments
-    if ALL_TOGETHER:
-        # Process images all together
-        response = service.all_together(files)
-    else:
-        # Divide images in segments and process each segment separately
-        response = service.divide_in_segments(files, num_pic)
-        # Update response_cloud dictionary with response
-        response_cloud.update(response)
+    # Divide images in segments and process each segment separately
+    response = service.divide_in_segments(files, num_pic)
+    # Update response_cloud dictionary with response
+    response_cloud.update(response)
 
     # If response is not a dictionary, return an error response
     if type(response) is not dict:
@@ -133,14 +136,6 @@ async def drone(num_pic: int, num_of_repeats: int, files: List[UploadFile] = Fil
             success=False,
             message="Process in vehicle count didn't complete successfully"
         )
-
-    # If processing all images together, send response to cloud and update cloud_response variable
-
-    if ALL_TOGETHER:
-        send_start_time = time.time()  # get the current time in seconds
-        cloud_response = await send_to_cloud(service, response)
-        send_end_time = time.time()  # get the current time again
-        print(f"Cloud response: {cloud_response}")
 
     # If all images have been processed, send the updated response_cloud dictionary to cloud
     # and update cloud_response variable
@@ -151,9 +146,12 @@ async def drone(num_pic: int, num_of_repeats: int, files: List[UploadFile] = Fil
         print(f"Cloud response: {cloud_response}")
         create_logs(txt_file, f"Cloud response: {cloud_response}")
 
-    send_elapsed_time = send_end_time - send_start_time  # calculate the elapsed time
-    end_time = time.time()  # get the current time again
-    elapsed_time = end_time - start_time - send_elapsed_time  # calculate the elapsed time
+    # calculate the elapsed time
+    send_elapsed_time = send_end_time - send_start_time
+    # get the end time
+    end_time = time.time()
+    # calculate the elapsed time
+    elapsed_time = end_time - start_time - send_elapsed_time
     save_csv(csv_file, create_data(num_pic, "StartEndTime", start_time, end_time))
 
     print(f"Latency time for BaseStation: {elapsed_time} seconds")

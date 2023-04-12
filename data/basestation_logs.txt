@@ -1,0 +1,145 @@
+12-04-2023 14:12:00 basestation_server  | Latency time for BaseStation: 2.909111738204956 seconds
+12-04-2023 14:12:00 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:20:54 basestation_server  | Latency time for BaseStation: 3.17476749420166 seconds
+12-04-2023 14:20:54 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:21:02 basestation_server  | Latency time for BaseStation: 3.0077648162841797 seconds
+12-04-2023 14:21:02 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:21:10 basestation_server  | Cloud response: True
+12-04-2023 14:21:10 basestation_server  | Latency time for BaseStation: 2.7932322025299072 seconds
+12-04-2023 14:21:10 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:21:10 basestation_main    | Request was successful from cloud
+12-04-2023 14:21:18 basestation_server  | Latency time for BaseStation: 2.8185715675354004 seconds
+12-04-2023 14:21:18 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:21:26 basestation_server  | Latency time for BaseStation: 2.711679697036743 seconds
+12-04-2023 14:21:26 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:21:34 basestation_server  | Cloud response: True
+12-04-2023 14:21:34 basestation_server  | Latency time for BaseStation: 2.946226119995117 seconds
+12-04-2023 14:21:34 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:21:34 basestation_main    | Request was successful from cloud
+12-04-2023 14:21:42 basestation_server  | Latency time for BaseStation: 2.6922285556793213 seconds
+12-04-2023 14:21:42 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:21:49 basestation_server  | Latency time for BaseStation: 2.7233972549438477 seconds
+12-04-2023 14:21:49 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:21:57 basestation_server  | Cloud response: True
+12-04-2023 14:21:57 basestation_server  | Latency time for BaseStation: 2.814440965652466 seconds
+12-04-2023 14:21:57 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:21:57 basestation_main    | Request was successful from cloud
+12-04-2023 14:22:06 basestation_server  | Latency time for BaseStation: 3.268767833709717 seconds
+12-04-2023 14:22:06 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:23:44 basestation_server  | Latency time for BaseStation: 2.809267044067383 seconds
+12-04-2023 14:23:44 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:23:52 basestation_server  | Latency time for BaseStation: 3.0502331256866455 seconds
+12-04-2023 14:23:52 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:24:01 basestation_server  | Cloud response: True
+12-04-2023 14:24:01 basestation_server  | Latency time for BaseStation: 3.2499594688415527 seconds
+12-04-2023 14:24:01 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:24:01 basestation_main    | Request was successful from cloud
+12-04-2023 14:24:09 basestation_server  | Latency time for BaseStation: 2.8493340015411377 seconds
+12-04-2023 14:24:09 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:24:17 basestation_server  | Latency time for BaseStation: 3.606656789779663 seconds
+12-04-2023 14:24:17 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:24:26 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:26:53 basestation_server  | Latency time for BaseStation: 2.7723865509033203 seconds
+12-04-2023 14:26:53 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:27:01 basestation_server  | Latency time for BaseStation: 2.7693862915039062 seconds
+12-04-2023 14:27:01 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:27:08 basestation_server  | Cloud response: True
+12-04-2023 14:27:08 basestation_server  | Latency time for BaseStation: 2.5962319374084473 seconds
+12-04-2023 14:27:08 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:27:08 basestation_main    | Request was successful from cloud
+12-04-2023 14:27:16 basestation_server  | Latency time for BaseStation: 2.683448076248169 seconds
+12-04-2023 14:27:16 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:27:24 basestation_server  | Latency time for BaseStation: 2.364062786102295 seconds
+12-04-2023 14:27:24 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:27:31 basestation_server  | Cloud response: True
+12-04-2023 14:27:31 basestation_server  | Latency time for BaseStation: 2.4892096519470215 seconds
+12-04-2023 14:27:31 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:27:31 basestation_main    | Request was successful from cloud
+12-04-2023 14:27:39 basestation_server  | Latency time for BaseStation: 2.4971423149108887 seconds
+12-04-2023 14:27:39 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:27:46 basestation_server  | Latency time for BaseStation: 2.430401563644409 seconds
+12-04-2023 14:27:46 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:27:54 basestation_server  | Cloud response: True
+12-04-2023 14:27:54 basestation_server  | Latency time for BaseStation: 2.4750723838806152 seconds
+12-04-2023 14:27:54 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:27:54 basestation_main    | Request was successful from cloud
+12-04-2023 14:28:01 basestation_server  | Latency time for BaseStation: 2.7278008460998535 seconds
+12-04-2023 14:28:01 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:28:09 basestation_server  | Latency time for BaseStation: 2.583916187286377 seconds
+12-04-2023 14:28:09 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:28:17 basestation_server  | Cloud response: True
+12-04-2023 14:28:17 basestation_server  | Latency time for BaseStation: 2.5796620845794678 seconds
+12-04-2023 14:28:17 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:28:17 basestation_main    | Request was successful from cloud
+12-04-2023 14:28:24 basestation_server  | Latency time for BaseStation: 2.519829273223877 seconds
+12-04-2023 14:28:24 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:28:32 basestation_server  | Latency time for BaseStation: 2.549736261367798 seconds
+12-04-2023 14:28:32 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:28:39 basestation_server  | Cloud response: True
+12-04-2023 14:28:39 basestation_server  | Latency time for BaseStation: 2.474750518798828 seconds
+12-04-2023 14:28:39 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:28:39 basestation_main    | Request was successful from cloud
+12-04-2023 14:28:47 basestation_server  | Latency time for BaseStation: 2.4336578845977783 seconds
+12-04-2023 14:28:47 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:28:54 basestation_server  | Latency time for BaseStation: 2.190624713897705 seconds
+12-04-2023 14:28:54 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:29:02 basestation_server  | Cloud response: True
+12-04-2023 14:29:02 basestation_server  | Latency time for BaseStation: 2.896970510482788 seconds
+12-04-2023 14:29:02 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:29:02 basestation_main    | Request was successful from cloud
+12-04-2023 14:29:10 basestation_server  | Latency time for BaseStation: 2.531834602355957 seconds
+12-04-2023 14:29:10 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:29:17 basestation_server  | Latency time for BaseStation: 2.5717334747314453 seconds
+12-04-2023 14:29:17 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:29:25 basestation_server  | Cloud response: True
+12-04-2023 14:29:25 basestation_server  | Latency time for BaseStation: 2.423403024673462 seconds
+12-04-2023 14:29:25 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:29:25 basestation_main    | Request was successful from cloud
+12-04-2023 14:29:32 basestation_server  | Latency time for BaseStation: 2.6568868160247803 seconds
+12-04-2023 14:29:32 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:29:40 basestation_server  | Latency time for BaseStation: 2.552825689315796 seconds
+12-04-2023 14:29:40 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:29:47 basestation_server  | Cloud response: True
+12-04-2023 14:29:47 basestation_server  | Latency time for BaseStation: 2.4355647563934326 seconds
+12-04-2023 14:29:47 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:29:47 basestation_main    | Request was successful from cloud
+12-04-2023 14:29:55 basestation_server  | Latency time for BaseStation: 2.348928689956665 seconds
+12-04-2023 14:29:55 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:30:02 basestation_server  | Latency time for BaseStation: 2.5997843742370605 seconds
+12-04-2023 14:30:02 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:30:10 basestation_server  | Cloud response: True
+12-04-2023 14:30:10 basestation_server  | Latency time for BaseStation: 2.4383442401885986 seconds
+12-04-2023 14:30:10 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:30:10 basestation_main    | Request was successful from cloud
+12-04-2023 14:30:17 basestation_server  | Latency time for BaseStation: 2.470083236694336 seconds
+12-04-2023 14:30:17 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:30:25 basestation_server  | Latency time for BaseStation: 2.3628716468811035 seconds
+12-04-2023 14:30:25 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:30:32 basestation_server  | Cloud response: True
+12-04-2023 14:30:32 basestation_server  | Latency time for BaseStation: 2.630558729171753 seconds
+12-04-2023 14:30:32 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:30:32 basestation_main    | Request was successful from cloud
+12-04-2023 14:30:40 basestation_server  | Latency time for BaseStation: 2.4147086143493652 seconds
+12-04-2023 14:30:40 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:30:47 basestation_server  | Latency time for BaseStation: 2.4923009872436523 seconds
+12-04-2023 14:30:47 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:30:55 basestation_server  | Cloud response: True
+12-04-2023 14:30:55 basestation_server  | Latency time for BaseStation: 2.5714995861053467 seconds
+12-04-2023 14:30:55 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:30:55 basestation_main    | Request was successful from cloud
+12-04-2023 14:31:03 basestation_server  | Latency time for BaseStation: 2.5710771083831787 seconds
+12-04-2023 14:31:03 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:31:10 basestation_server  | Latency time for BaseStation: 2.5818216800689697 seconds
+12-04-2023 14:31:10 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:31:18 basestation_server  | Cloud response: True
+12-04-2023 14:31:18 basestation_server  | Latency time for BaseStation: 2.8733303546905518 seconds
+12-04-2023 14:31:18 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:31:18 basestation_main    | Request was successful from cloud
+12-04-2023 14:31:26 basestation_server  | Latency time for BaseStation: 2.5388894081115723 seconds
+12-04-2023 14:31:26 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:31:34 basestation_server  | Latency time for BaseStation: 2.85402250289917 seconds
+12-04-2023 14:31:34 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:31:42 basestation_server  | Cloud response: True
+12-04-2023 14:31:42 basestation_server  | Latency time for BaseStation: 2.9877777099609375 seconds
+12-04-2023 14:31:42 basestation_main    | Divided in segments (2) | Use folder to save | and the vehicle counting (First).
+12-04-2023 14:31:42 basestation_main    | Request was successful from cloud
