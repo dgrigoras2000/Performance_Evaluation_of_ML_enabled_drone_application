@@ -64,39 +64,39 @@ class DroneMain:
 
     # Define a function for loading the images from the specified directory
     def load_images(self):
-        start_time = time.time()  # get the current time in seconds
-        # Load images from a folder
-        for filename in self.find_files(img_dir_path, '*.jpg'):
-            # Open the image file and add it to the list of images to be sent
-            img_tuple = ('files', open(filename, 'rb'))
-            self.images_list.append(img_tuple)
-
         self.csv_file = open('/data/drone_times.csv', "w", newline="")
         header = ["ID", "Description", "Start Time", "End Time", "Total Time"]
         (csv.writer(self.csv_file)).writerow(header)
 
         self.txt_file = open('/data/drone_logs.txt', 'w')
+        while True:
+            start_time = time.time()  # get the current time in seconds
+            # Load images from a folder
+            for filename in self.find_files(img_dir_path, '*.jpg'):
+                # Open the image file and add it to the list of images to be sent
+                img_tuple = ('files', open(filename, 'rb'))
+                self.images_list.append(img_tuple)
 
-        # Get the total number of images
-        total_num_of_imgs = len(self.images_list)
+            # Get the total number of images
+            total_num_of_imgs = len(self.images_list)
 
-        # Send the images to the basestation
-        response = self.send_images(total_num_of_imgs)
+            # Send the images to the basestation
+            response = self.send_images(total_num_of_imgs)
 
-        # Log an error message indicating the response from the basestation
-        logging.error(f"Basestation response: {response}")
-        self.create_logs(f"Basestation response: {response}")
-        # Print a message indicating that a response has been received from the basestation
-        print("Received from BaseStation")
+            # Log an error message indicating the response from the basestation
+            logging.error(f"Basestation response: {response}")
+            self.create_logs(f"Basestation response: {response}")
+            # Print a message indicating that a response has been received from the basestation
+            print("Received from BaseStation")
 
-        end_time = time.time()  # get the current time again
-        elapsed_time = end_time - start_time  # calculate the elapsed time
+            end_time = time.time()  # get the current time again
+            elapsed_time = end_time - start_time  # calculate the elapsed time
 
-        self.save_csv(self.create_data(10, "StartEndTime", start_time, end_time))
+            self.save_csv(self.create_data(10, "StartEndTime", start_time, end_time))
 
-        print(f"Latency time for drone: {elapsed_time} seconds")
-        self.create_logs(f"Latency time for drone: {elapsed_time} seconds")
-        return
+            print(f"Latency time for drone: {elapsed_time} seconds")
+            self.create_logs(f"Latency time for drone: {elapsed_time} seconds")
+            self.images_list = []
 
     ############################################################################################
 
