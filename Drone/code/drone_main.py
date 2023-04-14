@@ -120,6 +120,13 @@ class DroneMain:
 
     # Define a function for sending the images to the basestation
     def send_images(self, total_num_of_imgs):
+
+        # If the flag ALL_TOGETHER is set to False, group pictures by a defined number of images
+        if ALL_TOGETHER:
+            imgs_in_segments = total_num_of_imgs
+        else:
+            imgs_in_segments = NUMBER_OF_IMAGES
+
         # Print a message indicating that the code is waiting for the connection to be established
         print("Waiting for connection establishment with BaseStation...")
 
@@ -142,12 +149,6 @@ class DroneMain:
             raise SystemExit(f"An error occurred: {e}")
 
         print(json.loads(response.text) + "\n\n" + "Waiting for basestation response...\n")
-
-        # If the flag ALL_TOGETHER is set to False, group pictures by a defined number of images
-        if ALL_TOGETHER:
-            imgs_in_segments = total_num_of_imgs
-        else:
-            imgs_in_segments = NUMBER_OF_IMAGES
 
         way_of_send = f"Use segments to send pictures in list with number of pics to group: {imgs_in_segments}."
         list_num_elements = []
