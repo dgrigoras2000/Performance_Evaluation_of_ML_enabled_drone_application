@@ -19,5 +19,4 @@ EXPOSE 8080
 ADD ./code/ /code/
 
 # Set the default command to run when the container starts
-#CMD sleep 10 && python cloud_server.py
 CMD ["python", "cloud_server.py" ]
