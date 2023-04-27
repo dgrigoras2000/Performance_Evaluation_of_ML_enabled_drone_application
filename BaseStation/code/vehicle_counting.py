@@ -21,14 +21,6 @@ class VehicleCounting1:
         self.vehicles_folder_count = 0
 
     @staticmethod
-    def get_pic_name(img_path):
-        # Get the name of the image file from the full file path
-        path_list = img_path.split("\\")
-        # Remove the extension from the file name
-        name_pic = path_list[len(path_list) - 1][:-4]
-        return str(name_pic)
-
-    @staticmethod
     def count_vehicles(vehicle_boxes, img, vehicle_count):
         # Draw a bounding box around each detected vehicle and display the total count
         for box in vehicle_boxes:
