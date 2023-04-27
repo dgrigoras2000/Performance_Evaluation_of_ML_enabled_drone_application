@@ -41,7 +41,7 @@ async def check_connection():
 
 # Defining a route for handling incoming requests to the '/cloud/information' endpoint
 @app.post("/cloud/information")
-async def cloud1(road_info: dict = Body(...)):
+async def cloud(road_info: dict = Body(...)):
     start_time = time.time()  # get the current time in seconds
 
     if os.path.exists('/data/cloud_logs.txt'):
