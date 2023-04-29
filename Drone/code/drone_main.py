@@ -6,6 +6,7 @@ import fnmatch  # For pattern matching of filenames
 import logging  # For logging error messages
 import os  # For interacting with the file system
 import time
+import pytz
 
 import requests  # For making HTTP requests
 import simplejson as json  # For parsing JSON data
@@ -32,8 +33,6 @@ class DroneMain:
         self.image_arr = None
         # Initialize send time to zero
         self.send_elapsed_time = 0
-        self.csv_file = None
-        self.txt_file = None
 
     # Define a function for finding files in a directory that match a given pattern
     @staticmethod
@@ -50,33 +49,53 @@ class DroneMain:
         row = [t_id, desc, start, end, end - start]
         return row
 
-    def save_csv(self, csv_data):
+    @staticmethod
+    def save_csv(csv_file, csv_data):
         # Open the CSV file in write mode and create a writer object
-        writer = csv.writer(self.csv_file)
+        writer = csv.writer(csv_file)
 
         # Write the data to the CSV file
         writer.writerow(csv_data)
 
-    def create_logs(self, txt_log):
-        # Get the current date and time
-        dt = datetime.datetime.fromtimestamp(time.time())
+    @staticmethod
+    def create_logs(txt_file, txt_log):
+        # Set the timezone to Europe/Nicosia
+        tz = pytz.timezone('Europe/Nicosia')
 
+        # Get the current datetime with the timezone set to Europe/Nicosia
+        dt = datetime.datetime.now(tz)
         # Format the datetime object as a string with the hour in 24-hour format
         date_string = dt.strftime('%d-%m-%Y %H:%M:%S')
 
         # Write the log message to the text file with the current date and time
-        self.txt_file.write(f"{date_string} drone  | {txt_log}\n")
+        txt_file.write(f"{date_string} drone  | {txt_log}\n")
 
     # Define a function for loading the images from the specified directory
     def load_images(self):
-        # Open a new CSV file for writing the time data
-        self.csv_file = open('/data/drone_times.csv', "w", newline="")
-        # Write the header row to the CSV file
-        header = ["ID", "Description", "Start Time", "End Time", "Total Time"]
-        (csv.writer(self.csv_file)).writerow(header)
+        logging.error("aa")
+        # Check if log and CSV files exist.
+        if os.path.exists('/data_basestation/drone_logs.txt'):
+            # Open existing text file in 'append' mode
+            txt_file = open('/data_basestation/drone_logs.txt', 'a')
+            # Open existing CSV file in 'append' mode
+            csv_file = open('/data_basestation/drone_times.csv', "a", newline="")
+            logging.error("bb")
+        else:
+            # Create new text file and open in 'write' mode
+            txt_file = open('/data_basestation/drone_logs.txt', 'w')
+            # Create new CSV file and open in 'write' mode
+            csv_file = open('/data_basestation/drone_times.csv', "w", newline="")
+            # Define header for CSV file
+            header = ["ID", "Description", "Start Time", "End Time", "Total Time"]
+            # Write header to CSV file
+            (csv.writer(csv_file)).writerow(header)
+            logging.error("cc")
 
-        # Open a new text file for writing the drone logs
-        self.txt_file = open('/data/drone_logs.txt', 'w')
+        if os.path.exists('/data_basestation/drone_logs.txt'):
+            logging.error("845")
+
+        self.create_logs(txt_file, "Hello World")
+        logging.error("dd")
         while True:
             # Get the current time as the starting time
             start_time = time.time()
@@ -91,12 +110,12 @@ class DroneMain:
             total_num_of_imgs = len(self.images_list)
 
             # Send the images to the basestation
-            response = self.send_images(total_num_of_imgs)
+            response = self.send_images(total_num_of_imgs, txt_file, csv_file)
 
             # Log an error message indicating the response from the basestation
             logging.error(f"Basestation response: {response}")
             # Write the response to the drone logs text file
-            self.create_logs(f"Basestation response: {response}")
+            self.create_logs(txt_file, f"Basestation response: {response}")
             # Print a message indicating that a response has been received from the basestation
             print("Received from BaseStation")
 
@@ -106,12 +125,12 @@ class DroneMain:
             elapsed_time = end_time - start_time
 
             # Write the start time, end time, and total time to the CSV file
-            self.save_csv(self.create_data(10, "StartEndTime", start_time, end_time))
+            self.save_csv(csv_file, self.create_data(10, "StartEndTime", start_time, end_time))
 
             # Print the latency time to the console
             print(f"Latency time for drone: {elapsed_time} seconds")
             # Write the latency time to the drone logs text file
-            self.create_logs(f"Latency time for drone: {elapsed_time} seconds")
+            self.create_logs(txt_file, f"Latency time for drone: {elapsed_time} seconds")
 
             # Clear the list of images to be sent
             self.images_list = []
@@ -119,7 +138,7 @@ class DroneMain:
     ############################################################################################
 
     # Define a function for sending the images to the basestation
-    def send_images(self, total_num_of_imgs):
+    def send_images(self, total_num_of_imgs, txt_file, csv_file):
 
         # If the flag ALL_TOGETHER is set to False, group pictures by a defined number of images
         if ALL_TOGETHER:
@@ -136,7 +155,7 @@ class DroneMain:
             if response.status_code == 200:
                 # If the response status code is 200, log a message indicating that the request was successful
                 logging.error("Request was successful")
-                self.create_logs("Request was successful")
+                self.create_logs(txt_file, "Request was successful")
 
             else:
                 # If the response status code is not 200, raise a SystemExit exception with an error message
@@ -147,6 +166,12 @@ class DroneMain:
         except requests.exceptions.RequestException as e:
             # If an exception occurs, raise a SystemExit exception with an error message
             raise SystemExit(f"An error occurred: {e}")
+
+        print(f"Request was successful with code: {response.status_code} and text: {json.loads(response.text)}\n")
+        logging.error(
+            f"Request was successful with code: {response.status_code} and text: {json.loads(response.text)}\n")
+        self.create_logs(txt_file,
+                         f"Request was successful with code: {response.status_code} and text: {json.loads(response.text)}\n")
 
         print(json.loads(response.text) + "\n\n" + "Waiting for basestation response...\n")
 
@@ -196,7 +221,7 @@ class DroneMain:
             # Create a row in the csv_file with start and end time
             csv_data = self.create_data(num_pic, "Time to send images", send_start_time, send_end_time)
             # Save row in the file
-            self.save_csv(csv_data)
+            self.save_csv(csv_file, csv_data)
 
             # Sleeps for 5 seconds until send the next group of images
             print('Sleeping for 5 seconds...')
@@ -204,7 +229,7 @@ class DroneMain:
 
         # Log way of sending images
         logging.error(way_of_send)
-        self.create_logs(way_of_send)
+        self.create_logs(txt_file, way_of_send)
 
         # Return success message from response
         return json.loads(response.text)["message"]

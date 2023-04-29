@@ -44,20 +44,20 @@ services:
 
     # Build from Dockerfile in ./Drone directory
     build:
-      context: Drone
+      context: ./Drone
       dockerfile: Dockerfile
     image: drone-exp:1.0
 
-    # Mount ./data directory to /data in the container
+    # Mount ./data directory to /data_drone in the container
     volumes:
-      - ./data:/data_drone
+      - ./data:/data_basestation
 
     # Network mode and network dependencies
     networks:
       - internet
-    depends_on:
-      - basestation
-      - cloud
+#    depends_on:
+#      - basestation
+#      - cloud
 
   # Cloud Service
   cloud:
