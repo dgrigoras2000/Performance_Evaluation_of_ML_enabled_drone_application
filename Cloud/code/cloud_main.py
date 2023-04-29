@@ -2,7 +2,7 @@ import csv
 import datetime
 import logging
 import os.path
-import time
+import pytz
 
 
 class CloudMain:
@@ -10,8 +10,12 @@ class CloudMain:
         self.txt_file = None
 
     def create_logs(self, txt_log):
-        dt = datetime.datetime.fromtimestamp(time.time())
-        # format the datetime object as a string with the hour in 24-hour format
+        # Set the timezone to Europe/Nicosia
+        tz = pytz.timezone('Europe/Nicosia')
+
+        # Get the current datetime with the timezone set to Europe/Nicosia
+        dt = datetime.datetime.now(tz)
+        # Format the datetime object as a string with the hour in 24-hour format
         date_string = dt.strftime('%d-%m-%Y %H:%M:%S')
         self.txt_file.write(f"{date_string} cloud_main     | {txt_log}\n")
 

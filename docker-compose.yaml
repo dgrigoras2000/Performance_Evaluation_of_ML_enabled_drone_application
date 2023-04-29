@@ -57,6 +57,7 @@ services:
       - internet
     depends_on:
       - basestation
+      - cloud
 
   # Cloud Service
   cloud:

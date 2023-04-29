@@ -3,6 +3,7 @@ import csv
 import datetime
 import os.path
 import time
+import pytz
 
 from fastapi import Body
 from fastapi import FastAPI
@@ -14,8 +15,12 @@ app = FastAPI()
 
 
 def create_logs(txt_file, txt_log):
-    dt = datetime.datetime.fromtimestamp(time.time())
-    # format the datetime object as a string with the hour in 24-hour format
+    # Set the timezone to Europe/Nicosia
+    tz = pytz.timezone('Europe/Nicosia')
+
+    # Get the current datetime with the timezone set to Europe/Nicosia
+    dt = datetime.datetime.now(tz)
+    # Format the datetime object as a string with the hour in 24-hour format
     date_string = dt.strftime('%d-%m-%Y %H:%M:%S')
     txt_file.write(f"{date_string} cloud_server   | {txt_log}\n")
 

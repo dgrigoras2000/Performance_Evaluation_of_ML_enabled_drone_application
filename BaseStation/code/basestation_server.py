@@ -6,6 +6,7 @@ import json  # Library to encode and decode JSON data
 import logging  # Library to log messages
 import os.path  # Library to work with file and directory paths
 import time
+import pytz
 from typing import List  # Library for typed list of elements
 
 import requests  # Library to make HTTP requests
@@ -39,8 +40,12 @@ class VehicleCountResponse(BaseModel):
 
 
 def create_logs(txt_file, txt_log):
-    dt = datetime.datetime.fromtimestamp(time.time())
-    # format the datetime object as a string with the hour in 24-hour format
+    # Set the timezone to Europe/Nicosia
+    tz = pytz.timezone('Europe/Nicosia')
+
+    # Get the current datetime with the timezone set to Europe/Nicosia
+    dt = datetime.datetime.now(tz)
+    # Format the datetime object as a string with the hour in 24-hour format
     date_string = dt.strftime('%d-%m-%Y %H:%M:%S')
     txt_file.write(f"{date_string} basestation_server  | {txt_log}\n")
 
