@@ -27,7 +27,7 @@ services:
 
     # Mount ./data directory to /data in the container
     volumes:
-      - ./data:/data
+      - ./data:/data_basestation
 
     # Network mode and IP address
     networks:
@@ -50,7 +50,7 @@ services:
 
     # Mount ./data directory to /data in the container
     volumes:
-      - ./data:/data
+      - ./data:/data_drone
 
     # Network mode and network dependencies
     networks:
@@ -73,7 +73,7 @@ services:
 
     # Mount ./data directory to /data in the container
     volumes:
-      - ./data:/data
+      - ./data:/data_cloud
 
     # Network mode and IP address
     networks:

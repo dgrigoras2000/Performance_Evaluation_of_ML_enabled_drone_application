@@ -37,7 +37,7 @@ class BasestationMain:
         # Initialize vehicle counters
         self.vehicle_counter_1 = VehicleCounting1()
         self.vehicle_counter_2 = VehicleCounting2()
-        self.txt_file = open('/data/basestation_logs.txt', 'a')
+        self.txt_file = open('/data_basestation/basestation_logs.txt', 'a')
 
     @staticmethod
     def find_files(directory, pattern):

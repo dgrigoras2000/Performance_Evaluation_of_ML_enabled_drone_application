@@ -44,12 +44,12 @@ async def check_connection():
 async def cloud(road_info: dict = Body(...)):
     start_time = time.time()  # get the current time in seconds
 
-    if os.path.exists('/data/cloud_logs.txt'):
-        txt_file = open('/data/cloud_logs.txt', 'a')
-        csv_file = open('/data/cloud_times.csv', "a", newline="")
+    if os.path.exists('/data_cloud/cloud_logs.txt'):
+        txt_file = open('/data_cloud/cloud_logs.txt', 'a')
+        csv_file = open('/data_cloud/cloud_times.csv', "a", newline="")
     else:
-        txt_file = open('/data/cloud_logs.txt', 'w')
-        csv_file = open('/data/cloud_times.csv', "w", newline="")
+        txt_file = open('/data_cloud/cloud_logs.txt', 'w')
+        csv_file = open('/data_cloud/cloud_times.csv', "w", newline="")
         header = ["ID", "Description", "Start Time", "End Time", "Total Time"]
         (csv.writer(csv_file)).writerow(header)
 

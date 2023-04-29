@@ -107,16 +107,16 @@ async def drone(num_pic: int, num_of_repeats: int, files: List[UploadFile] = Fil
     cloud_response = True
 
     # Check if log and CSV files exist.
-    if os.path.exists('/data/basestation_logs.txt'):
+    if os.path.exists('/data_basestation/basestation_logs.txt'):
         # Open existing text file in 'append' mode
-        txt_file = open('/data/basestation_logs.txt', 'a')
+        txt_file = open('/data_basestation/basestation_logs.txt', 'a')
         # Open existing CSV file in 'append' mode
-        csv_file = open('/data/basestation_times.csv', "a", newline="")
+        csv_file = open('/data_basestation/basestation_times.csv', "a", newline="")
     else:
         # Create new text file and open in 'write' mode
-        txt_file = open('/data/basestation_logs.txt', 'w')
+        txt_file = open('/data_basestation/basestation_logs.txt', 'w')
         # Create new CSV file and open in 'write' mode
-        csv_file = open('/data/basestation_times.csv', "w", newline="")
+        csv_file = open('/data_basestation/basestation_times.csv', "w", newline="")
         # Define header for CSV file
         header = ["ID", "Description", "Start Time", "End Time", "Total Time"]
         # Write header to CSV file

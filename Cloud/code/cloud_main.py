@@ -23,11 +23,11 @@ class CloudMain:
 
     # Define a static method called "road_check" that takes in an argument called "info"
     def road_check(self, info):
-        self.txt_file = open('/data/cloud_logs.txt', 'a')
-        if os.path.exists('/data/count_results.csv'):
-            csv_file = open('/data/count_results.csv', "a", newline="")
+        self.txt_file = open('/data_cloud/cloud_logs.txt', 'a')
+        if os.path.exists('/data_cloud/count_results.csv'):
+            csv_file = open('/data_cloud/count_results.csv', "a", newline="")
         else:
-            csv_file = open('/data/count_results.csv', "w", newline="")
+            csv_file = open('/data_cloud/count_results.csv', "w", newline="")
             header = ['Picture Number', 'Number of Vehicles']
             (csv.writer(csv_file)).writerow(header)
 
