@@ -33,6 +33,27 @@ services:
     networks:
       internet:
 
+  # Cloud Service
+  cloud:
+    container_name: cloud
+    # Build from Dockerfile in ./Cloud directory
+    build:
+      context: ./Cloud
+      dockerfile: Dockerfile
+    image: cloud-exp:1.2
+
+    # Map port 8080 in the container to port 8080 on the host
+    ports:
+      - "8080:8080"
+
+    # Mount ./data directory to /data in the container
+    volumes:
+      - ./data:/data_cloud
+
+    # Network mode and IP address
+    networks:
+      internet:
+
   # Drone Service
   edge:
     container_name: drone
@@ -58,27 +79,6 @@ services:
 #    depends_on:
 #      - basestation
 #      - cloud
-
-  # Cloud Service
-  cloud:
-    container_name: cloud
-    # Build from Dockerfile in ./Cloud directory
-    build:
-      context: ./Cloud
-      dockerfile: Dockerfile
-    image: cloud-exp:1.2
-
-    # Map port 8080 in the container to port 8080 on the host
-    ports:
-      - "8080:8080"
-
-    # Mount ./data directory to /data in the container
-    volumes:
-      - ./data:/data_cloud
-
-    # Network mode and IP address
-    networks:
-      internet:
 
 # Networks
 networks:
