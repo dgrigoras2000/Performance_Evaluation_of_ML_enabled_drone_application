@@ -71,7 +71,7 @@ services:
 
     # Mount ./data directory to /data_drone in the container
     volumes:
-      - ./data:/data_basestation
+      - ./data:/data_drone
 
     # Network mode and network dependencies
     networks:

@@ -74,24 +74,24 @@ class DroneMain:
     def load_images(self):
         logging.error("aa")
         # Check if log and CSV files exist.
-        if os.path.exists('/data_basestation/drone_logs.txt'):
+        if os.path.exists('/data_drone/drone_logs.txt'):
             # Open existing text file in 'append' mode
-            txt_file = open('/data_basestation/drone_logs.txt', 'a')
+            txt_file = open('/data_drone/drone_logs.txt', 'a')
             # Open existing CSV file in 'append' mode
-            csv_file = open('/data_basestation/drone_times.csv', "a", newline="")
+            csv_file = open('/data_drone/drone_times.csv', "a", newline="")
             logging.error("bb")
         else:
             # Create new text file and open in 'write' mode
-            txt_file = open('/data_basestation/drone_logs.txt', 'w')
+            txt_file = open('/data_drone/drone_logs.txt', 'w')
             # Create new CSV file and open in 'write' mode
-            csv_file = open('/data_basestation/drone_times.csv', "w", newline="")
+            csv_file = open('/data_drone/drone_times.csv', "w", newline="")
             # Define header for CSV file
             header = ["ID", "Description", "Start Time", "End Time", "Total Time"]
             # Write header to CSV file
             (csv.writer(csv_file)).writerow(header)
             logging.error("cc")
 
-        if os.path.exists('/data_basestation/drone_logs.txt'):
+        if os.path.exists('/data_drone/drone_logs.txt'):
             logging.error("845")
 
         self.create_logs(txt_file, "Hello World")
@@ -167,7 +167,7 @@ class DroneMain:
             # If an exception occurs, raise a SystemExit exception with an error message
             raise SystemExit(f"An error occurred: {e}")
 
-        print(f"Request was successful with code: {response.status_code} and text: {json.loads(response.text)}\n")
+        print(f"Request was successful with code: {response.status_code} and text: {json.loads(response.text)}")
         logging.error(
             f"Request was successful with code: {response.status_code} and text: {json.loads(response.text)}\n")
         self.create_logs(txt_file,
