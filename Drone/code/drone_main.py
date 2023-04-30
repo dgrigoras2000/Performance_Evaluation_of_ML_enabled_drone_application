@@ -72,14 +72,12 @@ class DroneMain:
 
     # Define a function for loading the images from the specified directory
     def load_images(self):
-        logging.error("aa")
         # Check if log and CSV files exist.
         if os.path.exists('/data_drone/drone_logs.txt'):
             # Open existing text file in 'append' mode
             txt_file = open('/data_drone/drone_logs.txt', 'a')
             # Open existing CSV file in 'append' mode
             csv_file = open('/data_drone/drone_times.csv', "a", newline="")
-            logging.error("bb")
         else:
             # Create new text file and open in 'write' mode
             txt_file = open('/data_drone/drone_logs.txt', 'w')
@@ -89,13 +87,7 @@ class DroneMain:
             header = ["ID", "Description", "Start Time", "End Time", "Total Time"]
             # Write header to CSV file
             (csv.writer(csv_file)).writerow(header)
-            logging.error("cc")
 
-        if os.path.exists('/data_drone/drone_logs.txt'):
-            logging.error("845")
-
-        self.create_logs(txt_file, "Hello World")
-        logging.error("dd")
         while True:
             # Get the current time as the starting time
             start_time = time.time()
@@ -169,7 +161,7 @@ class DroneMain:
 
         print(f"Request was successful with code: {response.status_code} and text: {json.loads(response.text)}")
         logging.error(
-            f"Request was successful with code: {response.status_code} and text: {json.loads(response.text)}\n")
+            f"Request was successful with code: {response.status_code} and text: {json.loads(response.text)}")
         self.create_logs(txt_file,
                          f"Request was successful with code: {response.status_code} and text: {json.loads(response.text)}\n")
 

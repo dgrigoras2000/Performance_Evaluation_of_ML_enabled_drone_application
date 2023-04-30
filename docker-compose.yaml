@@ -76,9 +76,9 @@ services:
     # Network mode and network dependencies
     networks:
       - internet
-#    depends_on:
-#      - basestation
-#      - cloud
+    depends_on:
+      - basestation
+      - cloud
 
 # Networks
 networks:
