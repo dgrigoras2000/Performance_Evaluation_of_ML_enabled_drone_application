@@ -13,6 +13,7 @@ The application follows a micro-service approach with three services, drones, an
 <div align="center">
   <img src="componets_pic.png" alt="Components Picture" width="200">
 </div>
+
 ## Drone
 
 The Drone capture images from the road and sends that images via HTTP Post Request to a specific Edge server (BaseStation). Users have to define environmental variables, including ALL_TOGETHER, which defines if the images will go in one request or splitted in more, NUMBER_OF_IMAGES, which is the number of images to go if the first variable is False and so the images will go in separated segments (different requests: Total number of images divided by the variable's number)
